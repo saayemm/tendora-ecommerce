@@ -8,11 +8,13 @@ import Cart from "./pages/Cart"
 import Login from "./pages/Login"
 import PlaceOrder from "./pages/PlaceOrder"
 import Orders from "./pages/Orders"
+import Navbar from "./components/Navbar"
 
 
 const App = () => {
   return (
-    <div>
+    <div className="px-4 max-w-[1240px] mx-auto">
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/about" element={<About/>} />
