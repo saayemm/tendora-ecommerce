@@ -8,7 +8,7 @@ const Hero = () => {
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
                 Eligendi asperiores beatae, deserunt tenetur placeat 
             </p>
-            <button className="bg-black px-6 py-2 text-white cursor-pointer">Learn More</button>
+            <button className="bg-black px-6 py-2 text-white cursor-pointer uppercase">Our Best Seller</button>
     </div>
   )
 }

@@ -10,7 +10,8 @@ const Collection = () => {
   const [showFilter, setShowFilter] = useState(false)
   const [filterProducts, setFilterProducts] = useState([])
   const [category, setCategory] = useState([])
-  const [subcategory, setSubCategory] = useState([])
+  const [subCategory, setSubCategory] = useState([])
+  const [sortType, setSortType] = useState('relevent')
 
   const toggleCategory = (e)=> {
     if(category.includes(e.target.value)){
@@ -20,13 +21,49 @@ const Collection = () => {
     }
   }
 
-  useEffect(()=>{
-    setFilterProducts(products)
-  },[])
+  const toggleSubCategory = (e)=> {
+    if(subCategory.includes(e.target.value)){
+      setSubCategory(prev=>prev.filter(item=>item !== e.target.value))
+    }else{
+      setSubCategory(prev=>[...prev,e.target.value])
+    }
+  }
+
+  const applyFilter = ()=> {
+    let productsCopy = products.slice();
+    if(category.length>0){
+      productsCopy = productsCopy.filter(item=>category.includes(item.category))
+    }
+
+    if(subCategory.length>0){
+      productsCopy=productsCopy.filter(item=>subCategory.includes(item.subCategory))
+    }
+
+    setFilterProducts(productsCopy)
+  }
+
+  const sortProducts = () =>{
+    let filterProductsCopy = filterProducts.slice();
+
+    switch(sortType){
+      case 'low-high' :setFilterProducts(filterProductsCopy.sort((a,b)=>(a.price-b.price)))
+      break;
+
+      case 'high-low' :setFilterProducts(filterProductsCopy.sort((a,b)=>(b.price-a.price)))
+      break;
+
+      default: applyFilter()
+      break;
+    }
+  }
 
   useEffect(()=>{
-    console.log(category)
-  },[category])
+    applyFilter()
+  },[category, subCategory])
+
+  useEffect(()=>{
+    sortProducts();
+  },[sortType])
 
   return (
     <div className="flex">
@@ -50,11 +87,11 @@ const Collection = () => {
             <p className="mb-2 uppercase font-medium">Type</p>
             <div className="flex flex-col text-gray-700">
               <p className="flex gap-2">
-                <input type="checkbox" value={'Top'} />Top</p>
+                <input type="checkbox" value={'Topwear'} onChange={toggleSubCategory}/>Top</p>
               <p className="flex gap-2">
-                <input type="checkbox" value={'Botto'} />Bottom</p>
+                <input type="checkbox" value={'Bottomwear'} onChange={toggleSubCategory}/>Bottom</p>
               <p className="flex gap-2">
-                <input type="checkbox" value={'Winter'} />Winter</p>
+                <input type="checkbox" value={'Winterwear'} onChange={toggleSubCategory}/>Winter</p>
             </div>
         </div>
       </div>
@@ -63,7 +100,7 @@ const Collection = () => {
       <div className="flex-1 mt-20 ml-12">
         <div className="flex justify-between">
             <Title heading={"All Collections"}></Title>
-            <select className="border border-gray-300 px-4 h-10">
+            <select onChange={(e)=>setSortType(e.target.value)} className="border border-gray-300 px-4 h-10">
                 <option value="relevent">Sort by: Relevent</option>
                 <option value="low-high">Sort by: Low to High</option>
                 <option value="high-low">Sort by: High to Low</option>
