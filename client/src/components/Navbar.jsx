@@ -11,7 +11,8 @@ const Navbar = () => {
     const [visible, setVisible] = useState(false)
 
   return (
-    <div className="flex items-center justify-between py-4 p-6">
+    <div className="flex items-center 
+    justify-between mx-auto py-4 px-8 fixed z-999 w-full max-w-[1240px]">
         <div className='max-w-[160px]'>
            <Link to='/'> <img src={logo} alt="" /></Link>
         </div>
